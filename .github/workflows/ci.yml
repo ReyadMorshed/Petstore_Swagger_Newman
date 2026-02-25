@@ -1,0 +1,90 @@
+name: Petstore API Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run Newman tests
+        env:
+          API_KEY: ${{ secrets.POSTMAN_API_KEY }}
+        run: |
+          node src/runner/runner.js
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: postman-html-report
+          path: reports/postman/report.html
+
+      - name: Upload logs and JSON (if present)
+        uses: actions/upload-artifact@v4
+        with:
+          name: postman-logs-json
+          path: |
+            reports/postman/*.json
+            reports/postman/*.log
+            reports/postman/*.txt
+            reports/postman/*.xml
+            reports/postman/*.csv
+            reports/postman/*.md
+            reports/postman/*.yml
+            reports/postman/*.yaml
+            reports/postman/*.pdf
+            reports/postman/*.xlsx
+            reports/postman/*.xls
+            reports/postman/*.tsv
+            reports/postman/*.ts
+            reports/postman/*.js
+            reports/postman/*.html
+            reports/postman/*.zip
+            reports/postman/*.tar
+            reports/postman/*.gz
+            reports/postman/*.7z
+            reports/postman/*.rar
+            reports/postman/*.doc
+            reports/postman/*.docx
+            reports/postman/*.ppt
+            reports/postman/*.pptx
+            reports/postman/*.json
+            reports/postman/*.log
+            reports/postman/*.txt
+            reports/postman/*.xml
+            reports/postman/*.csv
+            reports/postman/*.md
+            reports/postman/*.yml
+            reports/postman/*.yaml
+            reports/postman/*.pdf
+            reports/postman/*.xlsx
+            reports/postman/*.xls
+            reports/postman/*.tsv
+            reports/postman/*.ts
+            reports/postman/*.js
+            reports/postman/*.html
+            reports/postman/*.zip
+            reports/postman/*.tar
+            reports/postman/*.gz
+            reports/postman/*.7z
+            reports/postman/*.rar
+            reports/postman/*.doc
+            reports/postman/*.docx
+            reports/postman/*.ppt
+            reports/postman/*.pptx
